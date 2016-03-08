@@ -9,7 +9,7 @@ from utils.git_utils import is_file_in_repo, get_git_file_info, \
      get_untracked_files, get_repo_root, get_repo_branch, get_repo_url, \
      git_execute
 
-class TestGitUtils(TestCase):
+class TestGitUtils1(TestCase):
     '''
     This class is used to test git_utils.py's functions.
     '''
@@ -188,11 +188,11 @@ class TestGitUtils(TestCase):
         This tests for diff files
         '''
         mock_ope.return_value = True
-        mock_ge.side_effect = ["\n", "1\n"]
-        mock_opn.return_value = "1"
+        mock_ge.side_effect = ["1\n", "2\n"]
+        mock_opn.side_effect = ["1","2"]
         mock_opj.return_value = ""
         mock_grr.return_value = ""
-        self.assertEqual(["1"], get_diff_files("blah.txt"))
+        self.assertEqual(["1","2"], get_diff_files("blah.txt"))
 
     @mock.patch('utils.git_utils.get_repo_root')
     @mock.patch('utils.git_utils.os.path.join')
@@ -268,7 +268,6 @@ class TestGitUtils(TestCase):
         mock_spp.return_value = StubForP()
         self.assertEqual("Stubbed", git_execute(""))
 
-
 # This has limited methods because of its use as a stub.
 # pylint: disable=too-few-public-methods
 class StubForP(object):
@@ -283,3 +282,21 @@ class StubForP(object):
         error.
         '''
         return ("Stubbed", "Error")
+
+class TestGitUtils2(TestCase):
+    '''
+    This class is also used to test git_utils.py's functions.
+    '''
+    @mock.patch('utils.git_utils.os.path.isfile')
+    @mock.patch('utils.git_utils.os.path.dirname')
+    @mock.patch('utils.git_utils.git_execute')
+    @mock.patch('utils.git_utils.os.path.exists')
+    def test_get_repo_branch(self, mock_ope, mock_ge, mock_opd, mock_opif):
+        '''
+        This tests for the repo branch.
+        '''
+        mock_ope.return_value = True
+        mock_ge.return_value = "1"
+        mock_opd.return_value = ""
+        mock_opif.return_value = True
+        self.assertEqual("1", get_repo_branch("blah.txt"))
