@@ -60,3 +60,7 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+/Lab7RequirementOutput.txt
+/checkoutput.txt
+/interface_output.txt
+/pylintoutput.txt
