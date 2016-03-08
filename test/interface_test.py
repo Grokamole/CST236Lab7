@@ -5,6 +5,7 @@ Test for interface
 """
 import datetime
 import time
+import os
 from unittest import TestCase
 import mock
 from source.main import Interface
@@ -149,7 +150,7 @@ class TestJobStoriesPart1(TestCase):
         '''
         interface = Interface()
         result = interface.ask("What directory is this using?")
-        self.assertEqual(result[-11:].lower(), '\\cst236lab7'.lower())
+        self.assertEqual(result.lower(), os.getcwd().lower())
 
     @job_stories('When I say "Roll a D6" I want to get a random integer from'+
                  ' 1 to 6 so that I don\'t have to roll a die')
