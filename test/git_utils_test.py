@@ -7,7 +7,7 @@ import mock
 from utils.git_utils import is_file_in_repo, get_git_file_info, \
      has_diff_files, has_untracked_files, get_file_info, get_diff_files, \
      get_untracked_files, get_repo_root, get_repo_branch, get_repo_url, \
-     git_execute
+     git_execute, is_repo_dirty
 
 class TestGitUtils1(TestCase):
     '''
@@ -300,3 +300,23 @@ class TestGitUtils2(TestCase):
         mock_opd.return_value = ""
         mock_opif.return_value = True
         self.assertEqual("1", get_repo_branch("blah.txt"))
+
+    @mock.patch('utils.git_utils.has_diff_files')
+    @mock.patch('utils.git_utils.os.path.exists')
+    def test_extra_dirty_repo(self, mock_ope, mock_hdf):
+        '''
+        This tests for a true dirty repo.
+        '''
+        mock_ope.return_value = True
+        mock_hdf.return_value = True
+        self.assertTrue(is_repo_dirty("blah.txt"))
+
+    @mock.patch('utils.git_utils.get_diff_files')
+    @mock.patch('utils.git_utils.os.path.exists')
+    def test_extra_diff_files(self, mock_ope, mock_gdf):
+        '''
+        This tests for has diff files.
+        '''
+        mock_ope.return_value = True
+        mock_gdf.return_value = ("1","2")
+        self.assertTrue(has_diff_files("blah.txt"))
