@@ -189,10 +189,10 @@ class TestGitUtils1(TestCase):
         '''
         mock_ope.return_value = True
         mock_ge.side_effect = ["1\n", "2\n"]
-        mock_opn.side_effect = ["1","2"]
+        mock_opn.side_effect = ["1", "2"]
         mock_opj.return_value = ""
         mock_grr.return_value = ""
-        self.assertEqual(["1","2"], get_diff_files("blah.txt"))
+        self.assertEqual(["1", "2"], get_diff_files("blah.txt"))
 
     @mock.patch('utils.git_utils.get_repo_root')
     @mock.patch('utils.git_utils.os.path.join')
@@ -318,5 +318,5 @@ class TestGitUtils2(TestCase):
         This tests for has diff files.
         '''
         mock_ope.return_value = True
-        mock_gdf.return_value = ("1","2")
+        mock_gdf.return_value = ("1", "2")
         self.assertTrue(has_diff_files("blah.txt"))
